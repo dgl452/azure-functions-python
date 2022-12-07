@@ -11,14 +11,14 @@ import time
 
 def main(name: str) -> str:
     if name == "Madrid":
-        time.sleep(2)
+        time.sleep(5)
     elif name == "Seattle":
-        time.sleep(2)
+        time.sleep(5)
         # Uncoment to force a task to fail :)
         # raise Exception("City not supported")
     elif name == "Tokyo":
-        time.sleep(2)
+        time.sleep(5)
     elif name == "London":
-        time.sleep(2)
+        time.sleep(5)
 
     return f"Hello {name}!"
