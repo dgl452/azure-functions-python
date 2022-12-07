@@ -35,19 +35,19 @@ async def create_export(request: Request, starter: Union[str, None] = None):
 
 
 @api.get("/export")
-async def get_exports(request: Request):
-    instances = requests.get(
-        f"http://localhost:7071/runtime/webhooks/durabletask/instances/"
-    )
-    return instances.json()
+async def get_exports(request: Request, starter: Union[str, None] = None):
+    client = df.DurableOrchestrationClient(decode_starter(starter))
+    instances = await client.get_status_all()
+    return instances
 
 
 @api.get("/export/{id}/status")
-async def get_export_status(request: Request, id: str):
-    status = requests.get(
-        f"http://localhost:7071/runtime/webhooks/durabletask/instances/{id}"
-    )
-    return status.json()
+async def get_export_status(
+    request: Request, id: str, starter: Union[str, None] = None
+):
+    client = df.DurableOrchestrationClient(decode_starter(starter))
+    instance = await client.get_status(id)
+    return instance
 
 
 ASGI_MIDDLEWARE = AsgiMiddleware(api)
