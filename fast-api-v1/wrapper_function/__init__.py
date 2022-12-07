@@ -1,7 +1,6 @@
 import nest_asyncio
 import base64
 import azure.functions as func
-import requests
 import azure.durable_functions as df
 from fastapi import FastAPI, Request
 from typing import Union
