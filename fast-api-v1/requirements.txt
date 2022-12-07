@@ -6,3 +6,4 @@ azure-functions
 nest-asyncio
 fastapi
 azure-functions-durable
+requests

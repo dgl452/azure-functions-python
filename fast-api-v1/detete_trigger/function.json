@@ -3,19 +3,19 @@
   "bindings": [
     {
       "authLevel": "anonymous",
+      "name": "req",
       "type": "httpTrigger",
       "direction": "in",
-      "name": "req",
+      "route": "orchestrators/{functionName}",
       "methods": [
-        "get",
-        "post"
-      ],
-      "route": "{*route}"
+        "post",
+        "get"
+      ]
     },
     {
+      "name": "$return",
       "type": "http",
-      "direction": "out",
-      "name": "$return"
+      "direction": "out"
     },
     {
       "name": "starter",
