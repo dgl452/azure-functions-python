@@ -9,16 +9,20 @@
 import time
 
 
-def main(name: str) -> str:
-    if name == "Madrid":
+def main(
+    name: tuple[
+        str,
+    ]
+) -> str:
+    if name[0] == "Madrid":
         time.sleep(5)
     elif name == "Seattle":
-        time.sleep(5)
+        time.sleep(10)
         # Uncoment to force a task to fail :)
         # raise Exception("City not supported")
     elif name == "Tokyo":
-        time.sleep(5)
+        time.sleep(15)
     elif name == "London":
-        time.sleep(5)
+        time.sleep(20)
 
     return f"Hello {name}!"
