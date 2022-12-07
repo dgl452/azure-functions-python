@@ -6,10 +6,19 @@
 # - add azure-functions-durable to requirements.txt
 # - run pip install -r requirements.txt
 
-import logging
 import time
 
 
 def main(name: str) -> str:
-    time.sleep(60)
+    if name == "Madrid":
+        time.sleep(2)
+    elif name == "Seattle":
+        time.sleep(2)
+        # Uncoment to force a task to fail :)
+        # raise Exception("City not supported")
+    elif name == "Tokyo":
+        time.sleep(2)
+    elif name == "London":
+        time.sleep(2)
+
     return f"Hello {name}!"
