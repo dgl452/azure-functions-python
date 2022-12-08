@@ -2,8 +2,7 @@ import nest_asyncio
 import base64
 import azure.functions as func
 import azure.durable_functions as df
-from fastapi import FastAPI, Request
-from typing import Union
+from fastapi import FastAPI, Request, Depends
 from azure.functions import AsgiMiddleware
 
 
@@ -24,9 +23,14 @@ def decode_starter(encoded_starter: str):
     return starter_bytes.decode("ascii")
 
 
+def get_starter(request: Request) -> str:
+    b64_starter = str(request.url).split("starter=")[1]
+    return decode_starter(b64_starter)
+
+
 @api.post("/export")
-async def create_export(request: Request, starter: Union[str, None] = None):
-    client = df.DurableOrchestrationClient(decode_starter(starter))
+async def create_export(starter: str = Depends(get_starter)):
+    client = df.DurableOrchestrationClient(starter)
     instance_id = await client.start_new("orchestrator", None, None)
     return {
         "expoerter_id": instance_id,
@@ -34,17 +38,15 @@ async def create_export(request: Request, starter: Union[str, None] = None):
 
 
 @api.get("/export")
-async def get_exports(request: Request, starter: Union[str, None] = None):
-    client = df.DurableOrchestrationClient(decode_starter(starter))
+async def get_exports(starter: str = Depends(get_starter)):
+    client = df.DurableOrchestrationClient(starter)
     instances = await client.get_status_all()
     return instances
 
 
 @api.get("/export/{id}/status")
-async def get_export_status(
-    request: Request, id: str, starter: Union[str, None] = None
-):
-    client = df.DurableOrchestrationClient(decode_starter(starter))
+async def get_export_status(id: str, starter: str = Depends(get_starter)):
+    client = df.DurableOrchestrationClient(starter)
     instance = await client.get_status(id)
     return instance
 
