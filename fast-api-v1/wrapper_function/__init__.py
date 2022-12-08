@@ -47,7 +47,9 @@ async def get_exports(starter: str = Depends(get_starter)):
 @api.get("/export/{id}/status")
 async def get_export_status(id: str, starter: str = Depends(get_starter)):
     client = df.DurableOrchestrationClient(starter)
-    instance = await client.get_status(id)
+    instance = await client.get_status(
+        id, show_history=True, show_history_output=True, show_input=True
+    )
     return instance
 
 
